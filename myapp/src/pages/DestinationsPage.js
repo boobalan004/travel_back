@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../config/apiConfig';
 import Footer from '../components/Footer';
 import DestinationBookingModal from '../components/DestinationBookingModal';
 import DestinationCard from '../components/DestinationCard';
@@ -57,7 +58,7 @@ function DestinationsPage() {
   const fetchDestinations = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/api/destinations');
+      const response = await axios.get(`${API_BASE_URL}/api/destinations`);
       const fetched = response.data.data || [];
 
       // If backend returned fewer than 9 destinations, append non-duplicate fallbacks
