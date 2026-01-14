@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const testimonials = [
+  const [testimonials, setTestimonials] = useState([
     {
       id: 1,
       name: 'Sarah Johnson',
@@ -40,7 +40,55 @@ const Testimonials = () => {
       initials: 'JW',
       destination: 'London, UK',
     },
-  ];
+  ]);
+
+  // Form state for new review
+  const [form, setForm] = useState({ name: '', location: '', rating: 0, review: '' });
+  const [errors, setErrors] = useState({});
+
+  const handleInput = (field, value) => {
+    setForm((f) => ({ ...f, [field]: value }));
+  };
+
+  const getInitials = (fullName) => {
+    if (!fullName) return '';
+    const parts = fullName.trim().split(/\s+/);
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+  };
+
+  const validateForm = () => {
+    const e = {};
+    if (!form.name.trim()) e.name = 'Name is required';
+    if (!form.location.trim()) e.location = 'Location is required';
+    if (!form.rating || form.rating < 1 || form.rating > 5) e.rating = 'Please select a rating';
+    if (!form.review.trim() || form.review.trim().length < 10) e.review = 'Please enter at least 10 characters';
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const submitReview = (ev) => {
+    ev.preventDefault();
+    if (!validateForm()) return;
+
+    const newTestimonial = {
+      id: Date.now(),
+      name: form.name.trim(),
+      role: 'Traveler',
+      rating: form.rating,
+      review: `"${form.review.trim()}"`,
+      initials: getInitials(form.name),
+      destination: form.location.trim(),
+    };
+
+    // Add new testimonial to the start of the list and focus it
+    setTestimonials((t) => [newTestimonial, ...t]);
+    setActiveIndex(0);
+
+    // reset form
+    setForm({ name: '', location: '', rating: 0, review: '' });
+    setErrors({});
+  };
 
   const nextSlide = () => {
     setActiveIndex((prev) => (prev + 1) % testimonials.length);
@@ -71,6 +119,44 @@ const Testimonials = () => {
 
         {/* Testimonials Carousel */}
         <div className="relative">
+
+          {/* Review submission form */}
+          <div className="mb-8">
+            <form onSubmit={submitReview} className="bg-white/80 p-6 rounded-2xl shadow-sm grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+              <div className="md:col-span-1">
+                <label className="block text-sm font-semibold mb-2">Name</label>
+                <input value={form.name} onChange={(e)=>handleInput('name', e.target.value)} className="w-full px-3 py-2 border rounded-md" />
+                {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+              </div>
+              <div className="md:col-span-1">
+                <label className="block text-sm font-semibold mb-2">Location</label>
+                <input value={form.location} onChange={(e)=>handleInput('location', e.target.value)} className="w-full px-3 py-2 border rounded-md" />
+                {errors.location && <p className="text-red-500 text-xs mt-1">{errors.location}</p>}
+              </div>
+              <div className="md:col-span-1">
+                <label className="block text-sm font-semibold mb-2">Rating</label>
+                <div className="flex items-center gap-2">
+                  {[1,2,3,4,5].map((n)=> (
+                    <button type="button" key={n} onClick={()=>handleInput('rating', n)} className={`p-2 rounded ${form.rating>=n ? 'bg-yellow-400 text-white' : 'bg-slate-100'}`} aria-label={`${n} stars`}>
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </button>
+                  ))}
+                </div>
+                {errors.rating && <p className="text-red-500 text-xs mt-1">{errors.rating}</p>}
+              </div>
+
+              <div className="md:col-span-3">
+                <label className="block text-sm font-semibold mb-2">Review</label>
+                <textarea value={form.review} onChange={(e)=>handleInput('review', e.target.value)} rows={3} className="w-full px-3 py-2 border rounded-md" />
+                {errors.review && <p className="text-red-500 text-xs mt-1">{errors.review}</p>}
+              </div>
+
+              <div className="md:col-span-3 flex justify-end">
+                <button type="submit" className="px-6 py-2 bg-gradient-to-br from-blue-500 to-purple-600 text-white font-bold rounded-md">Submit Review</button>
+              </div>
+            </form>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Left - Current Testimonial */}
             <div className="flex flex-col justify-center">
