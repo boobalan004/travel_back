@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Footer from '../components/Footer';
+import API_BASE_URL from '../config/apiConfig';
 
 function FlightsPage() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ function FlightsPage() {
   const fetchFlights = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/api/flights');
+      const response = await axios.get(`${API_BASE_URL}/api/flights`);
       console.log('🟢 [FLIGHTS] API Response:', response.data);
       const flightData = response.data.data || response.data || [];
       console.log('🟢 [FLIGHTS] Processed flights:', flightData);
@@ -129,7 +130,7 @@ function FlightsPage() {
       console.log('📤 [FLIGHT] Sending flight booking data:', bookingData);
 
       const response = await axios.post(
-        'http://localhost:5000/api/bookings',
+        `${API_BASE_URL}/api/bookings`,
         bookingData,
         {
           headers: {

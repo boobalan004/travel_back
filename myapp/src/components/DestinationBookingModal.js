@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API_BASE_URL from '../config/apiConfig';
 import GenericToast from './GenericToast';
 
 const DestinationBookingModal = ({ destination, onClose, onSuccess }) => {
@@ -130,7 +131,7 @@ const DestinationBookingModal = ({ destination, onClose, onSuccess }) => {
       };
 
       const response = await axios.post(
-        'http://localhost:5000/api/bookings/save',
+        `${API_BASE_URL}/api/bookings/save`,
         bookingData,
         {
           headers: {
@@ -186,7 +187,7 @@ const DestinationBookingModal = ({ destination, onClose, onSuccess }) => {
       };
 
       const response = await axios.post(
-        'http://localhost:5000/api/bookings/book-and-pay',
+        `${API_BASE_URL}/api/bookings/book-and-pay`,
         bookingData,
         {
           headers: {

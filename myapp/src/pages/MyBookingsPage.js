@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API_BASE_URL from '../config/apiConfig';
 import Footer from '../components/Footer';
 import Toast from '../components/Toast';
 import SkeletonLoader from '../components/SkeletonLoader';
@@ -42,7 +43,7 @@ function MyBookingsPage() {
 
       console.log('🔵 [PAYMENT] Sending payment request to backend...');
       const response = await axios.post(
-        `http://localhost:5000/api/bookings/${bookingId}/payment`,
+        `${API_BASE_URL}/api/bookings/${bookingId}/payment`,
         {
           paymentMethod: paymentMethod,
           cardData: paymentMethod === 'card' ? { /* card details would go here */ } : {}
@@ -127,7 +128,7 @@ function MyBookingsPage() {
       // Fetch user's bookings
       console.log('🔵 [MY_BOOKINGS] Sending GET request to /api/bookings/my');
       const response = await axios.get(
-        'http://localhost:5000/api/bookings/my',
+        `${API_BASE_URL}/api/bookings/my`,
         {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -177,7 +178,7 @@ function MyBookingsPage() {
       const token = localStorage.getItem('token') || localStorage.getItem('sessionId') || localStorage.getItem('authToken');
 
       const response = await axios.put(
-        `http://localhost:5000/api/bookings/${bookingId}`,
+        `${API_BASE_URL}/api/bookings/${bookingId}`,
         { bookingStatus: 'Cancelled' },
         {
           headers: {

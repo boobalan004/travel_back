@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API_BASE_URL from '../config/apiConfig';
 import Footer from '../components/Footer';
 import SkeletonLoader from '../components/SkeletonLoader';
 
@@ -30,7 +31,7 @@ function BookingsPage() {
 
       // Fetch user's bookings
       const response = await axios.get(
-        'http://localhost:5000/api/bookings/my',
+        `${API_BASE_URL}/api/bookings/my`,
         {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -64,7 +65,7 @@ function BookingsPage() {
       const token = localStorage.getItem('sessionId') || localStorage.getItem('authToken');
 
       const response = await axios.put(
-        `http://localhost:5000/api/bookings/${bookingId}`,
+        `${API_BASE_URL}/api/bookings/${bookingId}`,
         { bookingStatus: 'Cancelled' },
         {
           headers: {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import API_BASE_URL from '../config/apiConfig';
 
 const Destinations = () => {
   const [destinations, setDestinations] = useState([]);
@@ -8,7 +9,7 @@ const Destinations = () => {
   useEffect(() => {
     const fetchDestinations = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/destinations');
+        const response = await fetch(`${API_BASE_URL}/api/destinations`);
         if (!response.ok) throw new Error('Failed to fetch destinations');
         const data = await response.json();
         console.log('🟢 [DESTINATIONS] API Response:', data);

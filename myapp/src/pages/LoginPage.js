@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API_BASE_URL from '../config/apiConfig';
 import Footer from '../components/Footer';
 
 function LoginPage() {
@@ -32,7 +33,7 @@ function LoginPage() {
       setLoading(true);
       setError('');
       
-      const response = await axios.post('http://localhost:5000/api/auth/login', formData, {
+      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, formData, {
         timeout: 5000
       });
       
@@ -50,7 +51,7 @@ function LoginPage() {
       
       // Provide specific error messages
       if (err.code === 'ECONNABORTED') {
-        setError('Connection timeout. Please check if the backend server is running on http://localhost:5000');
+        setError('Connection timeout. Please check if the backend server is running');
       } else if (err.code === 'ECONNREFUSED') {
         setError('Cannot connect to server. Please ensure the backend is running on port 5000');
       } else if (err.response?.status === 401) {

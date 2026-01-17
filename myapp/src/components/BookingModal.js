@@ -218,13 +218,13 @@ const BookingModal = ({ destination, onClose }) => {
       };
 
       console.log('📤 [BOOKING] Sending booking data to backend:', bookingData);
-      console.log('📤 [BOOKING] API Endpoint: http://localhost:5000/api/bookings');
+      console.log('📤 [BOOKING] API Endpoint: ' + `${API_BASE_URL}/api/bookings`);
       console.log('📤 [BOOKING] Authorization header: Bearer [TOKEN]');
 
       // STEP 5: Send booking to backend with PENDING_PAYMENT status
       console.log('🔵 [BOOKING] Sending POST request to backend...');
       const response = await axios.post(
-        'http://localhost:5000/api/bookings',
+        `${API_BASE_URL}/api/bookings`,
         bookingData,
         {
           headers: {

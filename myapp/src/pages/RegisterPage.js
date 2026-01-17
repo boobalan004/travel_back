@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Footer from '../components/Footer';
+import API_BASE_URL from '../config/apiConfig';
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ function RegisterPage() {
 
     try {
       setLoading(true);
-      const response = await axios.post('http://localhost:5000/api/auth/signup', formData);
+      const response = await axios.post(`${API_BASE_URL}/api/auth/signup`, formData);
       
       // Store token and user info
       localStorage.setItem('token', response.data.sessionId);

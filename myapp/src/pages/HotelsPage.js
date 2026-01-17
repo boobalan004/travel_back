@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Footer from '../components/Footer';
+import API_BASE_URL from '../config/apiConfig';
 
 function HotelsPage() {
   const [hotels, setHotels] = useState([]);
@@ -15,7 +16,7 @@ function HotelsPage() {
     try {
       setLoading(true);
       // Add cache-busting parameter to ensure fresh data
-      const response = await axios.get('http://localhost:5000/api/hotels', {
+      const response = await axios.get(`${API_BASE_URL}/api/hotels`, {
         params: { t: new Date().getTime() }
       });
       console.log('🟢 [HOTELS] Fetched hotels:', response.data.data);
