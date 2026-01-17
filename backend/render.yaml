@@ -1,6 +1,1 @@
-services:
-  - type: web
-    name: travel_back
-    env: node
-    startCommand: node server.js
-    buildCommand: npm install
+﻿services:`n  - type: web`n    name: travel_back`n    env: node`n    startCommand: node server.js`n    buildCommand: npm install
